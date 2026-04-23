@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Fact Checker</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      max-width: 700px;
+      margin: 40px auto;
+      padding: 20px;
+      background: #0f172a;
+      color: #f1f5f9;
+    }
+
+    h1 {
+      color: #06b6d4;
+      margin-bottom: 30px;
+    }
+
+    input[type="text"] {
+      width: 100%;
+      padding: 12px;
+      background: #1e293b;
+      border: 1px solid #334155;
+      border-radius: 8px;
+      color: #f1f5f9;
+      font-size: 16px;
+      margin-bottom: 15px;
+      box-sizing: border-box;
+    }
+
+    input[type="text"]::placeholder {
+      color: #64748b;
+    }
+
+    button {
+      padding: 12px 24px;
+      background: #06b6d4;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background: #0891b2;
+    }
+
+    .result {
+      margin-top: 30px;
+      background: #1e293b;
+      padding: 20px;
+      border-radius: 8px;
+      white-space: pre-wrap;
+      line-height: 1.8;
+      border: 1px solid #334155;
+    }
+
+    label {
+      color: #94a3b8;
+      display: block;
+      margin-bottom: 8px;
+      font-size: 14px;
+    }
+  </style>
+</head>
+
+<body>
+
+  <h1>🔍 Fact Checker</h1>
+  <p style="color: #64748b; margin-bottom: 30px; font-size: 16px;">Don't believe everything you read — let AI verify it
+    for you if the news is fake or genuine 🤖</p>
+
+  <form method="POST">
+    {% csrf_token %}
+    <label>Enter a claim to verify:</label>
+    <input type="text" name="claim" placeholder="e.g. The earth is flat...">
+    <button type="submit">Check Fact</button>
+  </form>
+  {% if result %}
+  <div class="result" id="resultBox">{{ result }}</div>
+  {% endif %}
+
+  <script>
+    const box = document.getElementById('resultBox');
+    if (box) {
+      // make URLs clickable
+      box.innerHTML = box.innerHTML.replace(
+        /(https?:\/\/[^\s<]+)/g,
+        '<a href="$1" target="_blank" style="color: #06b6d4;">$1</a>'
+      );
+    }
+  </script>
+</body>
+
+</html>
